@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استمارة حجز كورس السوشيال ميديا - كنيسة مار مرقس</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%),
+                        linear-gradient(-45deg, #f8f9fa 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #f8f9fa 75%),
+                        linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background-color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: float 10s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-badge {
+            background: #fbbf24;
+            color: #1f2937;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .course-info {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #dc2626;
+        }
+
+        .course-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .highlight-icon {
+            width: 20px;
+            height: 20px;
+            background: #dc2626;
+            border-radius: 50%;
+            margin-left: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .highlight-icon::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .price-info {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .limited-offer {
+            background: #fbbf24;
+            color: #1f2937;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-info {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+            border-radius: 15px;
+        }
+
+        .contact-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fbbf24;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            // Validate phone number
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .course-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>كورس السوشيال ميديا ماركتنج</h1>
+            <div class="subtitle">كنيسة مار مرقس - هليوبوليس</div>
+            <div class="course-badge">Facebook & Instagram</div>
+        </div>
+
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                تم إرسال طلب الحجز بنجاح! سيتم التواصل معك قريباً.
+            </div>
+
+            <div class="course-info">
+                <h2 style="color: #dc2626; margin-bottom: 20px; font-size: 1.8rem;">ماذا ستتعلم في الكورس؟</h2>
+                <div class="course-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>إنشاء إعلانات ممولة واستهداف العملاء المهتمين بمجالك</span>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>دراسة وتحليل المنافسين في مجالك</span>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>كتابة محتوى جذاب</span>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>بناء صفحة بطريقة احترافية</span>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>إدارة صفحات السوشيال ميديا</span>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <span>إنشاء استراتيجية علامة تجارية</span>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.5rem;">📅</span>
+                            <div>
+                                <strong>يوم الثلاثاء</strong><br>
+                                <span style="color: #6b7280;">6 مساءً - 9 مساءً</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.5rem;">⏰</span>
+                            <div>
+                                <strong>9 جلسات / 27 ساعة</strong>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.5rem;">🚀</span>
+                            <div>
+                                <strong>البداية:</strong><br>
+                                <span style="color: #6b7280;">الثلاثاء 2-9-2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-info">
+                <div class="price">800 ج.م</div>
+                <div class="limited-offer">لفترة محدودة</div>
+                <div style="margin-top: 10px; position: relative; z-index: 2;">
+                    التسجيل متاح من : الاثنين 11-8-2025
+                </div>
+            </div>
+
+            <form id="registrationForm" action="https://formspree.io/f/xwpqrggy" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">الاسم الأول *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">الاسم الأخير *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="01xxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" name="email" placeholder="example@email.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">النوع *</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">اختر النوع</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">تاريخ الميلاد *</label>
+                        <input type="date" id="birthDate" name="birthDate" required max="2007-01-01" min="1950-01-01">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="education">المؤهل الدراسي *</label>
+                        <select id="education" name="education" required>
+                            <option value="">اختر المؤهل الدراسي</option>
+                            <option value="high-school">ثانوية عامة أو ما يعادلها</option>
+                            <option value="diploma">دبلوم متوسط</option>
+                            <option value="bachelor">بكالوريوس</option>
+                            <option value="master">ماجستير</option>
+                            <option value="phd">دكتوراة</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobStatus">الحالة الوظيفية *</label>
+                        <select id="jobStatus" name="jobStatus" required>
+                            <option value="">اختر الحالة الوظيفية</option>
+                            <option value="student">طالب</option>
+                            <option value="employee">موظف</option>
+                            <option value="business-owner">رجل أعمال</option>
+                            <option value="housewife">ربة منزل</option>
+                            <option value="freelancer">عمل حر</option>
+                            <option value="unemployed">لا أعمل حالياً</option>
+                            <option value="retired">متقاعد</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">مستوى الخبرة في السوشيال ميديا *</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">اختر مستوى الخبرة</option>
+                        <option value="beginner">مبتدئ</option>
+                        <option value="intermediate">متوسط</option>
+                        <option value="advanced">متقدم</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="business">هل لديك نشاط تجاري أو تريد بدء واحد؟</label>
+                    <select id="business" name="business">
+                        <option value="">اختر</option>
+                        <option value="yes-existing">نعم، لدي نشاط تجاري حالياً</option>
+                        <option value="yes-planning">نعم، أخطط لبدء نشاط تجاري</option>
+                        <option value="no">لا، أريد تعلم المهارة فقط</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goals">ما هو هدفك من الكورس؟</label>
+                    <textarea id="goals" name="goals" rows="4" placeholder="اكتب هدفك من تعلم السوشيال ميديا ماركتنج..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">طريقة الدفع المفضلة *</label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="">اختر طريقة الدفع</option>
+                        <option value="cash">نقداً في الكنيسة</option>
+                        <option value="instapay">انستاباي</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="howHeard">كيف سمعت عن الكورس؟</label>
+                    <select id="howHeard" name="howHeard">
+                        <option value="">اختر</option>
+                        <option value="facebook">فيسبوك</option>
+                        <option value="instagram">إنستجرام</option>
+                        <option value="whatsapp">واتساب</option>
+                        <option value="friends">من الأصدقاء</option>
+                        <option value="church">من الكنيسة</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    احجز مكانك الآن
+                </button>
+            </form>
+
+            <div class="contact-info">
+                <div style="margin-bottom: 10px;">للحجز أو للاستفسار اتصل:</div>
+                <div class="contact-number">01223314171</div>
+                <div style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                    لحجز مركز الكورسات بمبنى القديسة دميانة (الفيلا) 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Validate required fields
+            const requiredFields = ['firstName', 'lastName', 'phone', 'gender', 'birthDate', 'education', 'jobStatus', 'experience', 'paymentMethod'];
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.style.borderColor = '#dc2626';
+                    isValid = false;
+                } else {
+                    element.style.borderColor = '#e5e7eb';
+                }
+            });
+            
+            if (!isValid) {
+                alert('برجاء ملء جميع الحقول المطلوبة (*)');
+                return;
+            }
+            
+            // Validate birth date (must be at least 18 years old)
+            if (data.birthDate) {
+                const birthDate = new Date(data.birthDate);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                if (age < 18) {
+                    document.getElementById('birthDate').style.borderColor = '#dc2626';
+                    alert('يجب أن تكون 18 سنة أو أكثر للتسجيل في الكورس');
+                    return;
+                }
+                
+                if (age > 75) {
+                    document.getElementById('birthDate').style.borderColor = '#dc2626';
+                    alert('برجاء التأكد من تاريخ الميلاد المدخل');
+                    return;
+                }
+            }
+            const phonePattern = /^01[0-9]{9}$/;
+            if (!phonePattern.test(data.phone.replace(/\s/g, ''))) {
+                document.getElementById('phone').style.borderColor = '#dc2626';
+                alert('برجاء إدخال رقم هاتف صحيح يبدأ بـ 01');
+                return;
+            }
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // In a real application, you would send this data to a server
+            console.log('Registration data:', data);
+            
+            // Optional: Show a more detailed success message with payment info
+            setTimeout(() => {
+                const paymentMethod = data.paymentMethod;
+                const paymentPlan = data.paymentPlan;
+                
+                let paymentMsg = 'تم إرسال طلب التسجيل بنجاح!\n\n';
+                
+                if (paymentMethod === 'cash') {
+                    paymentMsg += 'طريقة الدفع: نقداً في الكنيسة\n';
+                    paymentMsg += 'يرجى الحضور لمكتب الكورسات لإتمام عملية الدفع.\n';
+                    paymentMsg += 'العنوان: كنيسة مار مرقس - هليوبوليس\n';
+                } else if (paymentMethod === 'instapay') {
+                    paymentMsg += 'طريقة الدفع: انستاباي\n';
+                    paymentMsg += 'سيتم إرسال كود الـ QR أو اسم المستخدم للتحويل قريباً.\n';
+                }
+                
+                if (paymentPlan === 'installment') {
+                    paymentMsg += '\nخطة الدفع: تقسيط على دفعتين (400 ج.م لكل دفعة)\n';
+                    paymentMsg += 'الدفعة الأولى: عند التسجيل\n';
+                    paymentMsg += 'الدفعة الثانية: بعد الجلسة الخامسة\n';
+                } else {
+                    paymentMsg += '\nخطة الدفع: دفع كامل (800 ج.م)\n';
+                }
+                
+                paymentMsg += '\nسيتم التواصل معك خلال 24 ساعة لتأكيد الحجز وتفاصيل الدفع.';
+                
+                alert(paymentMsg);
+            }, 1000);
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Animate course highlights on scroll
+        function animateOnScroll() {
+            const highlights = document.querySelectorAll('.highlight-item');
+            highlights.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    setTimeout(() => {
+                        item.style.transform = 'translateY(0)';
+                        item.style.opacity = '1';
+                    }, index * 100);
+                }
+            });
+        }
+
+        // Set initial state for animation
+        document.querySelectorAll('.highlight-item').forEach(item => {
+            item.style.transform = 'translateY(20px)';
+            item.style.opacity = '0';
+            item.style.transition = 'all 0.5s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
